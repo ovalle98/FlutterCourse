@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:image_library/pages/color_page.dart';
 import 'package:image_library/pages/image_page.dart';
  
 void main() => runApp(MyApp());
@@ -9,9 +10,10 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Matrieal App',
-      initialRoute: 'image',
+      initialRoute: 'color',
       routes: {
         'image' : (BuildContext context) => ImagePage(),
+        'color' : (BuildContext context) => ColorPage(),
       },
     );
   }

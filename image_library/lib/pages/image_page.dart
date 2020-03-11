@@ -27,7 +27,8 @@ class _ImagePageState extends State<ImagePage> {
       appBar: AppBar(
         centerTitle: true,
         actions: <Widget>[
-          IconButton(icon: Icon(Icons.photo_size_select_actual), onPressed: () => _image())
+          IconButton(icon: Icon(Icons.photo_size_select_actual), onPressed: () => _image()),
+          IconButton(icon: Icon(Icons.color_lens), onPressed: (){Navigator.pushNamed(context, 'color');})
         ],
         title: Text('Image',),
       ),
@@ -36,11 +37,11 @@ class _ImagePageState extends State<ImagePage> {
           onTap: () => reset(),
           child: Container(
             padding: EdgeInsets.all(10.0),
-            child: //(!cargar) 
-/*            ? Center(
+            child: (!cargar) 
+            ? const Center(
               child: CircularProgressIndicator(),
               heightFactor: 10.0,)
-            :*/ Column(
+            : new Column(
               children: <Widget>[
                 Center(
                   child: image(),
@@ -113,6 +114,7 @@ class _ImagePageState extends State<ImagePage> {
       cargar = false;
       print('AAAAAAAAAAAAAAAA $cargar');
       setState((){});
+      print('AAAAAAAAAAAAAAAA2 $cargar');
       adJustImage();
     }
   }
@@ -172,6 +174,7 @@ class _ImagePageState extends State<ImagePage> {
   }
 
   adJustImage() async{
+      setState((){});
     if(foto != null){
       img.Image image = img.decodeImage(foto.readAsBytesSync());
       img.Image result = img.adjustColor(
