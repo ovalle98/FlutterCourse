@@ -1,11 +1,25 @@
 import 'package:flutter/material.dart';
+
 import 'package:login_sqflite/src/color/clors.dart';
-import 'package:login_sqflite/src/models/usuario_model.dart';
 import 'package:login_sqflite/src/page/home_page.dart';
 import 'package:login_sqflite/src/page/menu_page.dart';
 import 'package:login_sqflite/src/page/registro_page.dart';
- 
-void main() => runApp(MyApp());
+import 'package:login_sqflite/src/models/token_model.dart';
+import 'package:login_sqflite/src/provider/db_provider.dart';
+
+String p;// = 'home';
+Token t;// = Token(id: 'null');
+
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  t = await DBProvider.db.getToken();
+  print(t);
+  if( t == null || t.nombre == 'null')
+    p = 'home';
+  else
+    p = 'menu';
+  runApp(MyApp());
+}
  
 class MyApp extends StatelessWidget {
   @override
@@ -13,7 +27,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Material App',
-      initialRoute: 'home',
+      initialRoute: p,
       routes: {
         'home' : (BuildContext context) => HomePage(null),
         'menu' : (BuildContext context) => MenuPage(null),

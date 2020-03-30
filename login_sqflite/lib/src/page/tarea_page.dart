@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 import 'package:login_sqflite/src/bloc/tarea_bloc.dart';
 import 'package:login_sqflite/src/models/tarea_models.dart';
 import 'package:login_sqflite/src/models/usuario_model.dart';
@@ -24,10 +25,6 @@ class _TareaPageState extends State<TareaPage> {
           return Center(child: CircularProgressIndicator(),);
         }
         final tareas = snapshot.data;
-        /*if(tareas.length == 0){
-          return Center(child: Text('No hay información'),);
-
-        }*/
         return ListView.builder(
           itemCount: tareas.length,
           itemBuilder: (context, i) => Dismissible(
@@ -46,17 +43,5 @@ class _TareaPageState extends State<TareaPage> {
         );
       }
     );
-    /*return Scaffold(
-      backgroundColor: getPrincipal(),
-      appBar: AppBar(
-        title: Text('Menú', style: TextStyle(color: getPrimary()),),
-        backgroundColor: getFondo(),
-        iconTheme: new IconThemeData(color: getPrimary()),
-        actions: <Widget>[
-          IconButton(icon: Icon(Icons.add), onPressed: null)
-        ],
-      ),
-      drawer: MenuWidgets(),
-    );*/
   }
 }

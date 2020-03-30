@@ -4,6 +4,7 @@ import 'package:login_sqflite/src/color/clors.dart';
 import 'package:login_sqflite/src/widgets/campo.dart';
 import 'package:login_sqflite/src/widgets/toast.dart';
 import 'package:login_sqflite/src/page/menu_page.dart';
+import 'package:login_sqflite/src/models/token_model.dart';
 import 'package:login_sqflite/src/provider/db_provider.dart';
 import 'package:login_sqflite/src/models/usuario_model.dart';
 
@@ -19,7 +20,7 @@ class _HomePageState extends State<HomePage> {
   User _user;
   TextEditingController cEmail = TextEditingController();
   TextEditingController cPassword = TextEditingController();
-  
+
   _HomePageState(this._user);
 
   @override
@@ -91,6 +92,8 @@ class _HomePageState extends State<HomePage> {
                   _crearBotonInicio(),
                   SizedBox(height: 10.0,),
                   _crearBotonRegistro(),
+                  SizedBox(height: 10.0,),
+                  _crearBotonToken(),
                 ],
               ),
             ),
@@ -142,6 +145,29 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
+  Widget _crearBotonToken() {
+    return StreamBuilder(
+      builder: (BuildContext context, AsyncSnapshot snapshot){
+        return RaisedButton(
+          padding: EdgeInsets.symmetric(horizontal: 20.0),
+          child: Container(
+            padding: EdgeInsets.symmetric(horizontal: 80.0, vertical: 15.0),
+            child: Text('Token'),
+          ),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(19.0)
+          ),
+          elevation: 5.0,
+          color: getBoton(),
+          textColor: getTextBoton(),
+          onPressed: (){
+            _getToken();
+          }
+        );
+      },
+    );
+  }
+
   _vacio(BuildContext context){
     if(cPassword.text != "" && cEmail.text != "") 
       _login(context);
@@ -155,8 +181,17 @@ class _HomePageState extends State<HomePage> {
       toastShow(context, "Datos incorrectos", getPrimary(), getError());
       return;
     }
+    Token t = Token(id: 1, nombre: 'token');
+    if((await DBProvider.db.getToken()) == null)
+      await DBProvider.db.insertToken(t);
+    else
+      await DBProvider.db.updateToken(Token(id: 1, nombre: 'token'));
     Navigator.pushReplacement(context, MaterialPageRoute(
       builder: (context) => MenuPage(_user),
     ));
+  }
+
+  _getToken()async {
+    print(await DBProvider.db.getToken());
   }
 }

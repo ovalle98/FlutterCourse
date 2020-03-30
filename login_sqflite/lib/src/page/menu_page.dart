@@ -5,6 +5,7 @@ import 'package:login_sqflite/src/models/tarea_models.dart';
 import 'package:login_sqflite/src/models/usuario_model.dart';
 import 'package:login_sqflite/src/page/tarea_page.dart';
 import 'package:login_sqflite/src/provider/db_provider.dart';
+import 'package:login_sqflite/src/widgets/menu_widgets.dart';
 
 class MenuPage extends StatefulWidget {
   User user;
@@ -33,6 +34,7 @@ class _MenuPageState extends State<MenuPage> {
           )
         ],
       ),
+      drawer: MenuWidgets(),
       body: TareaPage(_user),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       floatingActionButton: FloatingActionButton(
@@ -44,9 +46,10 @@ class _MenuPageState extends State<MenuPage> {
   }
 
   adTarea() async {
-    Tarea tarea = new Tarea(nombre: 'Tarea de ${_user.nombre}', idUser: _user.id);
+    print(await DBProvider.db.getToken());
+    /*Tarea tarea = new Tarea(nombre: 'Tarea de ${_user.nombre}', idUser: _user.id);
     tareaBloc.agregarTarea(tarea);
     print(_user.toJson());
-    print(tarea.toJson());
+    print(tarea.toJson());*/
   }
 }

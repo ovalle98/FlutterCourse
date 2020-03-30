@@ -1,7 +1,8 @@
-import 'package:login_sqflite/src/models/tarea_models.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 
+import 'package:login_sqflite/src/models/token_model.dart';
+import 'package:login_sqflite/src/models/tarea_models.dart';
 import 'package:login_sqflite/src/models/usuario_model.dart';
 
 class DBProvider{
@@ -43,12 +44,19 @@ class DBProvider{
           ' REFERENCES user(id)'
           ')'
         );
+
+        await db.execute(
+          'CREATE TABLE token ('
+          'id INTEGER PRIMARY KEY,'
+          'nombre TEXT NOT NULL'
+          ')'
+        );
       },
     );
   }
 
   //CREAR REGISTRO
-  addUser(User user) async{
+  Future<int> addUser(User user) async{
     final db = await  database;
     final res = await db.rawInsert(
       "INSERT Into user (email, nombre, password) "
@@ -57,7 +65,7 @@ class DBProvider{
     return res;
   }
 
-  addTarea(Tarea tarea) async{
+  Future<int> addTarea(Tarea tarea) async{
     final db = await  database;
     final res = await db.rawInsert(
       "INSERT Into tarea (nombre, id_user) "
@@ -66,13 +74,22 @@ class DBProvider{
     return res;
   }
 
-  insertUser(User user) async{
+  Future<int> insertUser(User user) async{
     final db = await database;
     final res = await db.insert('user', user.toJson());
     return res;
   }
 
-  //Obtener información
+  Future<int> insertToken(Token t) async{
+    final db = await database;
+    final res = await db.rawInsert(
+      "INSERT Into token (id, nombre) "
+      "VALUES (${t.id}, '${t.nombre}')"
+    );
+    return res;
+  }
+
+    //Obtener información
   Future<User> getUserId(int id) async {
     final db  = await database;
     final res = await db.query('user', where: 'id = ?', whereArgs: [id]);
@@ -91,6 +108,12 @@ class DBProvider{
     return res.isNotEmpty ? User.fromJson(res.first) : null;
   }
 
+  Future<Token> getToken() async{
+    final db = await database;
+    final res = await db.query('token');
+    return res.isNotEmpty ? Token.fromJson(res.first) : null;
+  }
+
   Future<List<User>> getUsers() async{
     final db = await database;
     final res = await db.query('user');
@@ -104,11 +127,17 @@ class DBProvider{
     List<Tarea> list = res.isNotEmpty ? res.map((c) => Tarea.fromJson(c)).toList() : [];
     return list;
   }
-
+  
   //Actualizar registro
   Future<int> updateUser(User user) async {
     final db = await database;
     final res = await db.update('user', user.toJson(), where: 'id = ?', whereArgs: [user.id]);
+    return res;
+  }
+
+  Future<int> updateToken(Token t) async {
+    final db = await database;
+    final res = await db.update('token', t.toJson(), where: 'id = ?', whereArgs: [t.id]);
     return res;
   }
 
@@ -136,6 +165,5 @@ class DBProvider{
     final res = await db.rawDelete('DELETE FROM tarea');
     return res;
   }
-
 
 }

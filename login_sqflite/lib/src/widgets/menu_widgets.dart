@@ -2,6 +2,8 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 
 import 'package:login_sqflite/src/color/clors.dart';
+import 'package:login_sqflite/src/models/token_model.dart';
+import 'package:login_sqflite/src/provider/db_provider.dart';
 
 class MenuWidgets extends StatelessWidget {
   File foto;
@@ -35,11 +37,17 @@ class MenuWidgets extends StatelessWidget {
           ListTile(
             leading: Icon(Icons.person , color: getPrimary(), size: 30.0),
             title: Text('Cerrar sesión', style: TextStyle(color: getPrimary(), fontSize: 20.0)),
-            onTap: () => Navigator.pushReplacementNamed(context, 'home'),
+            onTap: () => cerrarSesion(context)
           ),
         ],
       ),
     );
+  }
+
+  void cerrarSesion(BuildContext context)async{
+    //print('Home ${await _returnValue()}');
+    DBProvider.db.updateToken(Token(id: 1, nombre: 'null'));
+    Navigator.pushReplacementNamed(context, 'home');
   }
 
 }
