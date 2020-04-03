@@ -26,6 +26,7 @@ dependencies:
   image_picker: ^0.6.3+1
   image:
   path_provider: ^1.6.0
+  toast: ^0.1.5
 
 dev_dependencies:
   flutter_test:

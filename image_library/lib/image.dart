@@ -1,12 +1,9 @@
-
 import 'dart:io';
-import 'dart:ui';
-
+import 'package:flutter/material.dart';
 import 'package:image/image.dart' as img;
 
 int mayor=0, red, green, blue, redP=0, greenP=0, blueP=0;
 Color colorFinal, c;
-Map<Color, int> map;
 
 Color imageColor(File foto){
   img.Image im = img.decodeImage(foto.readAsBytesSync());
