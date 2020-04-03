@@ -35,9 +35,7 @@ class _ColorPageState extends State<ColorPage> {
             padding: EdgeInsets.all(10.0),
             child: Column(
               children: <Widget>[
-                Center(
-                  child: image(),
-                ),
+                Center(child: image()),
                 SizedBox(height: 10.0,),
                 _crearBoton(),
                 SizedBox(height: 10.0,),
@@ -95,9 +93,7 @@ class _ColorPageState extends State<ColorPage> {
             padding: EdgeInsets.symmetric(horizontal: 80.0, vertical: 15.0),
             child: Text('Munsell'),
           ),
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(19.0)
-          ),
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(19.0)),
           elevation: 5.0,
           onPressed: (){
             String rgb = _colorToString();
@@ -124,5 +120,4 @@ class _ColorPageState extends State<ColorPage> {
     else if(x.length == 2) return '0$x';
     else return '00$x';
   }
-
 }
